@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Talentwale - Website Issues Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Header Section -->
+        <header class="dashboard-header">
+            <div class="header-content">
+                <h1 class="dashboard-title">Website Issues Dashboard</h1>
+                <div class="header-controls">
+                    <span class="last-updated" id="lastUpdated">Last updated: Never</span>
+                    <button class="btn-refresh" id="refreshBtn" title="Refresh data">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.2"/>
+                        </svg>
+                        Refresh
+                    </button>
+                </div>
+            </div>
+            <div class="connection-status" id="connectionStatus">
+                <span class="status-dot"></span>
+                <span class="status-text">Connecting...</span>
+            </div>
+        </header>
+
+        <!-- Loading Spinner -->
+        <div class="loading-overlay" id="loadingOverlay">
+            <div class="spinner"></div>
+            <p>Loading dashboard data...</p>
+        </div>
+
+        <!-- Error Message -->
+        <div class="error-message" id="errorMessage" style="display: none;">
+            <div class="error-content">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <line x1="12" y1="8" x2="12" y2="12"></line>
+                    <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                </svg>
+                <span id="errorText">An error occurred</span>
+                <button class="btn-retry" id="retryBtn">Retry</button>
+            </div>
+        </div>
+
+        <!-- Stats Cards -->
+        <section class="stats-grid" id="statsGrid">
+            <div class="stat-card">
+                <div class="stat-icon" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+                        <path d="M9 11l3 3L22 4"></path>
+                        <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path>
+                    </svg>
+                </div>
+                <div class="stat-content">
+                    <h3 class="stat-label">Total Issues</h3>
+                    <p class="stat-value" id="totalIssues">0</p>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon" style="background: linear-gradient(135deg, #2196F3 0%, #1976D2 100%);">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <line x1="12" y1="16" x2="12" y2="12"></line>
+                        <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                    </svg>
+                </div>
+                <div class="stat-content">
+                    <h3 class="stat-label">Open Issues</h3>
+                    <p class="stat-value" id="openIssues">0</p>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon" style="background: linear-gradient(135deg, #FF9800 0%, #F57C00 100%);">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <polyline points="12 6 12 12 16 14"></polyline>
+                    </svg>
+                </div>
+                <div class="stat-content">
+                    <h3 class="stat-label">In Progress</h3>
+                    <p class="stat-value" id="inProgressIssues">0</p>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon" style="background: linear-gradient(135deg, #4CAF50 0%, #388E3C 100%);">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+                        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                        <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                    </svg>
+                </div>
+                <div class="stat-content">
+                    <h3 class="stat-label">Resolved</h3>
+                    <p class="stat-value" id="resolvedIssues">0</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Charts Section -->
+        <section class="charts-grid">
+            <div class="chart-card">
+                <h3 class="chart-title">Status Distribution</h3>
+                <div class="chart-container">
+                    <canvas id="statusChart"></canvas>
+                </div>
+            </div>
+
+            <div class="chart-card">
+                <h3 class="chart-title">Priority Distribution</h3>
+                <div class="chart-container">
+                    <canvas id="priorityChart"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <!-- Filters Section -->
+        <section class="filters-section">
+            <div class="filters-container">
+                <div class="search-box">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <path d="m21 21-4.35-4.35"></path>
+                    </svg>
+                    <input type="text" id="searchInput" placeholder="Search issues..." class="search-input">
+                </div>
+
+                <select id="statusFilter" class="filter-select">
+                    <option value="">All Statuses</option>
+                </select>
+
+                <select id="priorityFilter" class="filter-select">
+                    <option value="">All Priorities</option>
+                </select>
+
+                <input type="date" id="dateFromFilter" class="filter-date" placeholder="From Date">
+                <input type="date" id="dateToFilter" class="filter-date" placeholder="To Date">
+
+                <select id="rowsPerPage" class="filter-select">
+                    <option value="10">10 rows</option>
+                    <option value="20" selected>20 rows</option>
+                    <option value="50">50 rows</option>
+                </select>
+
+                <button class="btn-export" id="exportBtn">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                        <polyline points="7 10 12 15 17 10"></polyline>
+                        <line x1="12" y1="15" x2="12" y2="3"></line>
+                    </svg>
+                    Export CSV
+                </button>
+            </div>
+        </section>
+
+        <!-- Data Table -->
+        <section class="table-section">
+            <div class="table-card">
+                <div class="table-header">
+                    <h3 class="table-title">Issues List</h3>
+                    <span class="table-count" id="tableCount">0 issues</span>
+                </div>
+                <div class="table-wrapper">
+                    <table class="data-table" id="dataTable">
+                        <thead id="tableHead">
+                            <tr>
+                                <th>Loading...</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tableBody">
+                            <tr>
+                                <td>Loading data...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="pagination-controls" id="paginationControls">
+                    <button class="btn-pagination" id="prevPage" disabled>Previous</button>
+                    <span class="pagination-info" id="paginationInfo">Page 1 of 1</span>
+                    <button class="btn-pagination" id="nextPage" disabled>Next</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Description Modal -->
+        <div class="modal" id="descriptionModal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 id="modalTitle">Description</h3>
+                    <button class="modal-close" id="modalClose">&times;</button>
+                </div>
+                <div class="modal-body" id="modalBody">
+                    <p>Loading...</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="dashboard-footer">
+            <p>Created by Gyanu Kumar</p>
+        </footer>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
