@@ -1,62 +1,17 @@
 // Configuration
 const CONFIG = {
+  // Project ID from your JSON
+  projectId: 'talentwale-issues',
+  
+  // YOUR NEW API KEY
+  apiKey: 'AIzaSyA5X1MEweP0WvQbJ2uqG1NQON_fFyPm-lY',
+  
   sheetId: '1rZJ7Tu-huQi_EVVSjjy7uhUumaxbM08WwsKjtjYJCn0',
   sheetName: 'Website Issues',
-  apiKey: 'AIzaSyDxSx1i7pEpjwAK4-LWuoS44crY0xi9HKo',
   apiEndpoint: 'https://sheets.googleapis.com/v4/spreadsheets',
   refreshInterval: 30000,
   maxRetries: 3,
   pageSize: 20
-};
-
-const OLD_CONFIG = {
-  serviceAccount: {
-    type: 'service_account',
-    project_id: 'gen-lang-client-0907149270',
-    private_key_id: 'f0bf292f5cde3fa7ce397831bf1bed0643a4a6ad',
-    private_key: `-----BEGIN PRIVATE KEY-----
-MIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQDKPJ3qR8Y8VDn+
-XqEWvE1xaJmYnfFhqwWVULfVGK3PF5cLVHqYHGIjHR3V7QRxE8aD3JhQN8W1qJoL
-0tKRfqPYVHXhHqQXqJJlF3qL0qJqPqJ8VHqJqPqJqPqJqPqJqPqJqPqJqPqJqPqJ
-qPqJqPqJqPqJqPqJqPqJqPqJqPqJqPqJqPqJqPqJqPqJqPqJqPqJqPqJqPqJqPqJ
-qPqJqPqJqPqJqPqJqPqJqPqJqPqJqPqJqPqJqPqJqPqJqPqJqPqJqPqJqPqJqPqJ
-qPqJqPqJqPqJqPqJqPqJqPqJqPqJqPqJqPqJqPqJqPqJqPqJqPqJqPqJqPqJqPqJ
-qPqJqPqJAgMBAAECggEABb3Z7J8Q3qJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJ
-qJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJq
-JqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJ
-qJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJq
-JqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJ
-qJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJq
-JqJqJqJqJqKQKBgQD5qJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJq
-JqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJ
-qJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJq
-JqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJwKBgQDPqJqJqJqJqJqJqJqJqJq
-JqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJ
-qJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJq
-JqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJwKBgFqJqJq
-JqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJ
-qJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJq
-JqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJ
-qJqJqJqJqJqJqJqJqJqJAoGBAMqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJq
-JqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJ
-qJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJq
-JqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJAoGBAKqJqJqJqJqJqJ
-qJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJq
-JqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJ
-qJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJq
-JqJqJqJqJqJqJqJqJqJqJ
------END PRIVATE KEY-----`,
-    client_email: 'talentwale@gen-lang-client-0907149270.iam.gserviceaccount.com',
-    client_id: '111134748276502974395',
-    auth_uri: 'https://accounts.google.com/o/oauth2/auth',
-    token_uri: 'https://oauth2.googleapis.com/token'
-  },
-  sheetId: '1rZJ7Tu-huQi_EVVSjjy7uhUumaxbM08WwsKjtjYJCn0',
-  sheetName: 'Website Issues',
-  apiEndpoint: 'https://sheets.googleapis.com/v4/spreadsheets',
-  scopes: 'https://www.googleapis.com/auth/spreadsheets.readonly',
-  refreshInterval: 30000,
-  maxRetries: 3
 };
 
 // Global state
@@ -125,9 +80,7 @@ async function fetchSheetData(retryCount = 0) {
 
     const url = `${CONFIG.apiEndpoint}/${CONFIG.sheetId}/values/${encodeURIComponent(CONFIG.sheetName)}?key=${CONFIG.apiKey}`;
     console.log('Fetching data from Google Sheets...');
-    console.log('Sheet ID:', CONFIG.sheetId);
-    console.log('Sheet Name:', CONFIG.sheetName);
-
+    
     const response = await fetch(url, {
       method: 'GET',
       headers: {
@@ -141,7 +94,7 @@ async function fetchSheetData(retryCount = 0) {
       
       let errorMessage = `API request failed: ${response.status}`;
       if (response.status === 403) {
-        errorMessage = 'Access denied. Please check if the sheet is publicly viewable and API key is valid.';
+        errorMessage = 'Access denied. Please check if the Google Sheet is shared as "Anyone with the link can view".';
       } else if (response.status === 404) {
         errorMessage = 'Sheet not found. Please verify the Sheet ID and Sheet Name.';
       } else if (response.status === 400) {
@@ -161,7 +114,6 @@ async function fetchSheetData(retryCount = 0) {
     // Parse data
     state.headers = data.values[0];
     state.columnMapping = mapColumns(state.headers);
-    console.log('Column mapping:', state.columnMapping);
     
     state.allData = data.values.slice(1).map((row, index) => {
       const rowData = { _rowIndex: index };
@@ -187,7 +139,7 @@ async function fetchSheetData(retryCount = 0) {
       console.log(`Retrying... (Attempt ${retryCount + 1}/${CONFIG.maxRetries})`);
       setTimeout(() => fetchSheetData(retryCount + 1), 2000 * (retryCount + 1));
     } else {
-      const errorMsg = `Failed to load data: ${error.message}\n\nTroubleshooting:\n• Ensure the Google Sheet is publicly viewable (Anyone with link can view)\n• Verify the Sheet Name is exactly "Website Issues"\n• Check that the API key is valid and has not been restricted`;
+      const errorMsg = `Failed to load data: ${error.message}\n\nCheck: Is the Google Sheet set to 'Anyone with the link'?`;
       showError(errorMsg);
     }
   } finally {
@@ -220,10 +172,17 @@ function updateStats() {
     });
   }
 
-  document.getElementById('totalIssues').textContent = total;
-  document.getElementById('openIssues').textContent = pending;
-  document.getElementById('inProgressIssues').textContent = inProgress;
-  document.getElementById('resolvedIssues').textContent = done;
+  const totalEl = document.getElementById('totalIssues');
+  if(totalEl) totalEl.textContent = total;
+  
+  const openEl = document.getElementById('openIssues');
+  if(openEl) openEl.textContent = pending;
+
+  const progressEl = document.getElementById('inProgressIssues');
+  if(progressEl) progressEl.textContent = inProgress;
+
+  const resolvedEl = document.getElementById('resolvedIssues');
+  if(resolvedEl) resolvedEl.textContent = done;
 }
 
 // Update charts
@@ -255,75 +214,81 @@ function updateCharts() {
 // Update status chart
 function updateStatusChart(data) {
   const ctx = document.getElementById('statusChart');
+  if (!ctx) return;
   
   if (state.charts.status) {
     state.charts.status.destroy();
   }
 
-  state.charts.status = new Chart(ctx, {
-    type: 'doughnut',
-    data: {
-      labels: Object.keys(data),
-      datasets: [{
-        data: Object.values(data),
-        backgroundColor: ['#2196F3', '#FF9800', '#4CAF50', '#F44336', '#9C27B0'],
-        borderWidth: 2,
-        borderColor: '#fff'
-      }]
-    },
-    options: {
-      responsive: true,
-      maintainAspectRatio: true,
-      plugins: {
-        legend: {
-          position: 'bottom',
-          labels: {
-            padding: 15,
-            font: { size: 12 }
+  if (typeof Chart !== 'undefined') {
+      state.charts.status = new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+          labels: Object.keys(data),
+          datasets: [{
+            data: Object.values(data),
+            backgroundColor: ['#2196F3', '#FF9800', '#4CAF50', '#F44336', '#9C27B0'],
+            borderWidth: 2,
+            borderColor: '#fff'
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: true,
+          plugins: {
+            legend: {
+              position: 'bottom',
+              labels: {
+                padding: 15,
+                font: { size: 12 }
+              }
+            }
           }
         }
-      }
-    }
-  });
+      });
+  }
 }
 
 // Update priority chart
 function updatePriorityChart(data) {
   const ctx = document.getElementById('priorityChart');
+  if (!ctx) return;
   
   if (state.charts.priority) {
     state.charts.priority.destroy();
   }
 
-  state.charts.priority = new Chart(ctx, {
-    type: 'bar',
-    data: {
-      labels: Object.keys(data),
-      datasets: [{
-        label: 'Number of Issues',
-        data: Object.values(data),
-        backgroundColor: ['#F44336', '#FF9800', '#4CAF50', '#2196F3', '#9C27B0'],
-        borderWidth: 0
-      }]
-    },
-    options: {
-      responsive: true,
-      maintainAspectRatio: true,
-      plugins: {
-        legend: {
-          display: false
-        }
-      },
-      scales: {
-        y: {
-          beginAtZero: true,
-          ticks: {
-            stepSize: 1
+  if (typeof Chart !== 'undefined') {
+      state.charts.priority = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: Object.keys(data),
+          datasets: [{
+            label: 'Number of Issues',
+            data: Object.values(data),
+            backgroundColor: ['#F44336', '#FF9800', '#4CAF50', '#2196F3', '#9C27B0'],
+            borderWidth: 0
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: true,
+          plugins: {
+            legend: {
+              display: false
+            }
+          },
+          scales: {
+            y: {
+              beginAtZero: true,
+              ticks: {
+                stepSize: 1
+              }
+            }
           }
         }
-      }
-    }
-  });
+      });
+  }
 }
 
 // Update data table
@@ -332,6 +297,8 @@ function updateTable() {
   const tbody = document.getElementById('tableBody');
   const tableCount = document.getElementById('tableCount');
   const cm = state.columnMapping;
+
+  if (!thead || !tbody) return;
 
   // Define display columns in order
   const displayColumns = [
@@ -408,7 +375,9 @@ function updateTable() {
     `).join('');
   }
 
-  tableCount.textContent = `${state.filteredData.length} issue${state.filteredData.length !== 1 ? 's' : ''}`;
+  if (tableCount) {
+    tableCount.textContent = `${state.filteredData.length} issue${state.filteredData.length !== 1 ? 's' : ''}`;
+  }
 }
 
 // Show description modal
@@ -417,9 +386,9 @@ function showDescription(description, issueNumber) {
   const modalTitle = document.getElementById('modalTitle');
   const modalBody = document.getElementById('modalBody');
   
-  modalTitle.textContent = `Description - Issue ${issueNumber}`;
-  modalBody.innerHTML = `<p>${description || 'No description available'}</p>`;
-  modal.classList.add('show');
+  if (modalTitle) modalTitle.textContent = `Description - Issue ${issueNumber}`;
+  if (modalBody) modalBody.innerHTML = `<p>${description || 'No description available'}</p>`;
+  if (modal) modal.classList.add('show');
 }
 
 // Escape HTML
@@ -436,9 +405,9 @@ function updatePagination() {
   const nextBtn = document.getElementById('nextPage');
   const paginationInfo = document.getElementById('paginationInfo');
   
-  prevBtn.disabled = state.currentPage === 1;
-  nextBtn.disabled = state.currentPage >= totalPages || totalPages === 0;
-  paginationInfo.textContent = `Page ${state.currentPage} of ${totalPages || 1}`;
+  if (prevBtn) prevBtn.disabled = state.currentPage === 1;
+  if (nextBtn) nextBtn.disabled = state.currentPage >= totalPages || totalPages === 0;
+  if (paginationInfo) paginationInfo.textContent = `Page ${state.currentPage} of ${totalPages || 1}`;
 }
 
 // Sort table
@@ -470,30 +439,40 @@ function sortTable(columnKey) {
 function updateFilters() {
   // Status filter - show normalized values
   const statusFilter = document.getElementById('statusFilter');
-  statusFilter.innerHTML = `
-    <option value="">All Statuses</option>
-    <option value="Pending">Pending</option>
-    <option value="Done">Done</option>
-    <option value="Other">Other</option>
-  `;
+  if (statusFilter) {
+      statusFilter.innerHTML = `
+        <option value="">All Statuses</option>
+        <option value="Pending">Pending</option>
+        <option value="Done">Done</option>
+        <option value="Other">Other</option>
+      `;
+  }
 
   // Priority filter
   const priorityCol = state.columnMapping.priority;
   if (priorityCol) {
     const priorities = [...new Set(state.allData.map(row => row[priorityCol]).filter(Boolean))];
     const priorityFilter = document.getElementById('priorityFilter');
-    priorityFilter.innerHTML = '<option value="">All Priorities</option>' +
-      priorities.map(priority => `<option value="${priority}">${priority}</option>`).join('');
+    if (priorityFilter) {
+        priorityFilter.innerHTML = '<option value="">All Priorities</option>' +
+        priorities.map(priority => `<option value="${priority}">${priority}</option>`).join('');
+    }
   }
 }
 
 // Apply filters
 function applyFilters() {
-  const searchTerm = document.getElementById('searchInput').value.toLowerCase();
-  const statusFilter = document.getElementById('statusFilter').value;
-  const priorityFilter = document.getElementById('priorityFilter').value;
-  const dateFrom = document.getElementById('dateFromFilter').value;
-  const dateTo = document.getElementById('dateToFilter').value;
+  const searchInput = document.getElementById('searchInput');
+  const statusFilter = document.getElementById('statusFilter');
+  const priorityFilter = document.getElementById('priorityFilter');
+  const dateFromFilter = document.getElementById('dateFromFilter');
+  const dateToFilter = document.getElementById('dateToFilter');
+
+  const searchTerm = searchInput ? searchInput.value.toLowerCase() : '';
+  const statusVal = statusFilter ? statusFilter.value : '';
+  const priorityVal = priorityFilter ? priorityFilter.value : '';
+  const dateFrom = dateFromFilter ? dateFromFilter.value : '';
+  const dateTo = dateToFilter ? dateToFilter.value : '';
 
   const cm = state.columnMapping;
 
@@ -516,13 +495,13 @@ function applyFilters() {
     }
 
     // Status filter - use normalized status
-    if (statusFilter) {
+    if (statusVal) {
       const normalized = normalizeStatus(row[cm.status]);
-      if (normalized !== statusFilter) return false;
+      if (normalized !== statusVal) return false;
     }
 
     // Priority filter
-    if (priorityFilter && row[cm.priority] !== priorityFilter) {
+    if (priorityVal && row[cm.priority] !== priorityVal) {
       return false;
     }
 
@@ -583,26 +562,31 @@ function exportToCSV() {
 // UI helper functions
 function showLoading(show) {
   const overlay = document.getElementById('loadingOverlay');
-  if (show) {
-    overlay.classList.remove('hidden');
-  } else {
-    overlay.classList.add('hidden');
+  if (overlay) {
+      if (show) {
+        overlay.classList.remove('hidden');
+      } else {
+        overlay.classList.add('hidden');
+      }
   }
 }
 
 function showError(message) {
   const errorDiv = document.getElementById('errorMessage');
   const errorText = document.getElementById('errorText');
-  errorText.textContent = message;
-  errorDiv.style.display = 'block';
+  if (errorText) errorText.textContent = message;
+  if (errorDiv) errorDiv.style.display = 'block';
 }
 
 function hideError() {
-  document.getElementById('errorMessage').style.display = 'none';
+  const errorDiv = document.getElementById('errorMessage');
+  if (errorDiv) errorDiv.style.display = 'none';
 }
 
 function updateConnectionStatus(status) {
   const statusElement = document.getElementById('connectionStatus');
+  if (!statusElement) return;
+
   const dot = statusElement.querySelector('.status-dot');
   const text = statusElement.querySelector('.status-text');
 
@@ -629,73 +613,103 @@ function updateLastUpdated() {
     minute: '2-digit',
     second: '2-digit'
   });
-  document.getElementById('lastUpdated').textContent = `Last updated: ${timeString}`;
+  const lastUpdatedEl = document.getElementById('lastUpdated');
+  if (lastUpdatedEl) lastUpdatedEl.textContent = `Last updated: ${timeString}`;
 }
 
 // Event listeners
 function setupEventListeners() {
   // Refresh button
-  document.getElementById('refreshBtn').addEventListener('click', async () => {
-    const btn = document.getElementById('refreshBtn');
-    btn.classList.add('spinning');
-    await fetchSheetData();
-    setTimeout(() => btn.classList.remove('spinning'), 1000);
-  });
+  const refreshBtn = document.getElementById('refreshBtn');
+  if (refreshBtn) {
+      refreshBtn.addEventListener('click', async () => {
+        refreshBtn.classList.add('spinning');
+        await fetchSheetData();
+        setTimeout(() => refreshBtn.classList.remove('spinning'), 1000);
+      });
+  }
 
   // Retry button
-  document.getElementById('retryBtn').addEventListener('click', () => {
-    fetchSheetData();
-  });
+  const retryBtn = document.getElementById('retryBtn');
+  if (retryBtn) {
+      retryBtn.addEventListener('click', () => {
+        fetchSheetData();
+      });
+  }
 
   // Search input
-  document.getElementById('searchInput').addEventListener('input', applyFilters);
+  const searchInput = document.getElementById('searchInput');
+  if (searchInput) searchInput.addEventListener('input', applyFilters);
 
   // Filter dropdowns
-  document.getElementById('statusFilter').addEventListener('change', applyFilters);
-  document.getElementById('priorityFilter').addEventListener('change', applyFilters);
-  document.getElementById('dateFromFilter').addEventListener('change', applyFilters);
-  document.getElementById('dateToFilter').addEventListener('change', applyFilters);
+  const statusFilter = document.getElementById('statusFilter');
+  if (statusFilter) statusFilter.addEventListener('change', applyFilters);
+  
+  const priorityFilter = document.getElementById('priorityFilter');
+  if (priorityFilter) priorityFilter.addEventListener('change', applyFilters);
+  
+  const dateFromFilter = document.getElementById('dateFromFilter');
+  if (dateFromFilter) dateFromFilter.addEventListener('change', applyFilters);
+  
+  const dateToFilter = document.getElementById('dateToFilter');
+  if (dateToFilter) dateToFilter.addEventListener('change', applyFilters);
 
   // Rows per page
-  document.getElementById('rowsPerPage').addEventListener('change', (e) => {
-    state.pageSize = parseInt(e.target.value);
-    state.currentPage = 1;
-    updatePagination();
-    updateTable();
-  });
+  const rowsPerPage = document.getElementById('rowsPerPage');
+  if (rowsPerPage) {
+      rowsPerPage.addEventListener('change', (e) => {
+        state.pageSize = parseInt(e.target.value);
+        state.currentPage = 1;
+        updatePagination();
+        updateTable();
+      });
+  }
 
   // Pagination buttons
-  document.getElementById('prevPage').addEventListener('click', () => {
-    if (state.currentPage > 1) {
-      state.currentPage--;
-      updatePagination();
-      updateTable();
-    }
-  });
+  const prevPage = document.getElementById('prevPage');
+  if (prevPage) {
+      prevPage.addEventListener('click', () => {
+        if (state.currentPage > 1) {
+          state.currentPage--;
+          updatePagination();
+          updateTable();
+        }
+      });
+  }
 
-  document.getElementById('nextPage').addEventListener('click', () => {
-    const totalPages = Math.ceil(state.filteredData.length / state.pageSize);
-    if (state.currentPage < totalPages) {
-      state.currentPage++;
-      updatePagination();
-      updateTable();
-    }
-  });
+  const nextPage = document.getElementById('nextPage');
+  if (nextPage) {
+      nextPage.addEventListener('click', () => {
+        const totalPages = Math.ceil(state.filteredData.length / state.pageSize);
+        if (state.currentPage < totalPages) {
+          state.currentPage++;
+          updatePagination();
+          updateTable();
+        }
+      });
+  }
 
   // Modal close
-  document.getElementById('modalClose').addEventListener('click', () => {
-    document.getElementById('descriptionModal').classList.remove('show');
-  });
+  const modalClose = document.getElementById('modalClose');
+  if (modalClose) {
+      modalClose.addEventListener('click', () => {
+        document.getElementById('descriptionModal').classList.remove('show');
+      });
+  }
 
   // Close modal on outside click
-  document.getElementById('descriptionModal').addEventListener('click', (e) => {
-    if (e.target.id === 'descriptionModal') {
-      document.getElementById('descriptionModal').classList.remove('show');
-    }
-  });
+  const descriptionModal = document.getElementById('descriptionModal');
+  if (descriptionModal) {
+      descriptionModal.addEventListener('click', (e) => {
+        if (e.target.id === 'descriptionModal') {
+          document.getElementById('descriptionModal').classList.remove('show');
+        }
+      });
+  }
 
   // Export button
-  document.getElementById('exportBtn').addEventListener('click', exportToCSV);
+  const exportBtn = document.getElementById('exportBtn');
+  if (exportBtn) exportBtn.addEventListener('click', exportToCSV);
 }
 
 // Make showDescription globally accessible
