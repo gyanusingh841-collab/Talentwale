@@ -3,710 +3,225 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Module - Talentwale Issue Tracker</title>
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        
-        :root {
-            --primary: #0052CC;
-            --primary-light: #e6f0ff;
-            --success: #28a745;
-            --warning: #ff9800;
-            --danger: #e53935;
-            --light: #f8f9ff;
-            --dark: #1f2933;
-            --border: #dde2f0;
-            --text: #4a5568;
-        }
-        
-        html, body { height: 100%; }
-        
-        body {
-            font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
-            background: #f0f4ff;
-            min-height: 100vh;
-            padding: 20px;
-            color: var(--dark);
-        }
-        
-        .container { max-width: 1600px; margin: 0 auto; }
-        
-        header {
-            background: white;
-            padding: 24px 28px;
-            border-radius: 12px;
-            box-shadow: 0 2px 12px rgba(15,23,42,0.08);
-            margin-bottom: 24px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 16px;
-        }
-        
-        header h1 { color: var(--primary); font-size: 28px; font-weight: 700; }
-        .subtitle { font-size: 13px; color: var(--text); margin-top: 4px; }
-        .last-updated { font-size: 12px; color: var(--text); margin-top: 4px; }
-        
-        .refresh-controls { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
-        
-        button {
-            padding: 8px 16px;
-            border-radius: 6px;
-            border: none;
-            cursor: pointer;
-            font-size: 13px;
-            font-weight: 500;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            transition: all 0.2s;
-        }
-        
-        .btn-primary { background: var(--primary); color: white; }
-        .btn-primary:hover { background: #003c99; }
-        .btn-outline { background: white; color: var(--primary); border: 1px solid var(--primary); }
-        .btn-outline:hover { background: var(--primary-light); }
-        .btn-success { background: var(--success); color: white; }
-        .btn-success:hover { background: #218838; }
-        
-        .refresh-badge {
-            background: var(--primary-light);
-            color: var(--primary);
-            padding: 4px 12px;
-            border-radius: 999px;
-            font-size: 11px;
-            font-weight: 600;
-        }
-        
-        .banner {
-            border-radius: 8px;
-            padding: 12px 16px;
-            margin-bottom: 16px;
-            display: none;
-        }
-        
-        .error-banner {
-            background: #fee;
-            border: 1px solid #fcc;
-            color: var(--danger);
-        }
-        
-        .success-banner {
-            background: #efe;
-            border: 1px solid #cfc;
-            color: var(--success);
-        }
-        
-        .banner.show { display: block; }
-        
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 16px;
-            margin-bottom: 24px;
-        }
-        
-        .stat-card {
-            background: white;
-            border-radius: 12px;
-            padding: 18px 20px;
-            box-shadow: 0 1px 8px rgba(15,23,42,0.06);
-            border-left: 4px solid var(--primary);
-        }
-        
-        .stat-label { font-size: 12px; text-transform: uppercase; color: var(--text); }
-        .stat-number { font-size: 32px; font-weight: 700; color: var(--primary); margin: 8px 0; }
-        
-        .filters {
-            background: white;
-            padding: 16px 20px;
-            border-radius: 12px;
-            box-shadow: 0 1px 8px rgba(15,23,42,0.06);
-            margin-bottom: 12px;
-            display: flex;
-            gap: 12px;
-            flex-wrap: wrap;
-            align-items: center;
-        }
-        
-        .filter-group { display: flex; gap: 8px; align-items: center; }
-        .filter-group label { font-size: 13px; font-weight: 600; color: var(--dark); white-space: nowrap; }
-        
-        select, input {
-            padding: 7px 10px;
-            border-radius: 6px;
-            border: 1px solid var(--border);
-            font-size: 13px;
-        }
-        
-        input[type="text"] { min-width: 200px; }
-        input[type="date"] { min-width: 140px; }
-        
-        .table-wrapper {
-            background: white;
-            border-radius: 12px;
-            box-shadow: 0 1px 8px rgba(15,23,42,0.06);
-            overflow: auto;
-            margin-bottom: 12px;
-        }
-        
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 13px;
-            min-width: 1000px;
-        }
-        
-        th, td { padding: 10px 12px; border-bottom: 1px solid #edf2ff; text-align: left; }
-        
-        th {
-            background: #f3f6ff;
-            color: var(--dark);
-            font-weight: 600;
-            user-select: none;
-            cursor: pointer;
-        }
-        
-        th:hover { background: #e3e9ff; }
-        th .sort { font-size: 10px; margin-left: 4px; opacity: 0.6; }
-        
-        tr:hover td { background: #fafbff; }
-        
-        .status-badge {
-            display: inline-block;
-            padding: 3px 9px;
-            border-radius: 999px;
-            font-size: 11px;
-            font-weight: 600;
-        }
-        
-        .status-done { background: #e6f6e9; color: var(--success); }
-        .status-pending { background: #fff4e5; color: var(--warning); }
-        .status-other { background: #e6f4ff; color: var(--primary); }
-        
-        .priority-high { color: var(--danger); font-weight: 600; }
-        .priority-medium { color: var(--warning); font-weight: 600; }
-        .priority-low { color: var(--success); font-weight: 600; }
-        
-        .view-btn {
-            background: var(--primary-light);
-            color: var(--primary);
-            border: none;
-            padding: 4px 8px;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 12px;
-            font-weight: 600;
-        }
-        .view-btn:hover { background: var(--primary); color: white; }
-        
-        .loading, .no-data { text-align: center; padding: 40px; color: var(--text); }
-        
-        .spinner {
-            border: 3px solid #e2e8f0;
-            border-top: 3px solid var(--primary);
-            border-radius: 50%;
-            width: 32px;
-            height: 32px;
-            animation: spin 0.9s linear infinite;
-            margin: 0 auto 12px;
-        }
-        
-        @keyframes spin { to { transform: rotate(360deg); } }
-        
-        .pagination {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 12px 16px;
-            font-size: 12px;
-            background: #f8f9ff;
-            border-radius: 0 0 12px 12px;
-        }
-        
-        .pagination-controls { display: flex; gap: 8px; align-items: center; }
-        .pagination-btn { padding: 4px 10px; border: 1px solid var(--border); background: white; color: var(--dark); cursor: pointer; font-size: 12px; }
-        .pagination-btn:disabled { opacity: 0.5; cursor: default; }
-        
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 1000;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.5);
-            align-items: center;
-            justify-content: center;
-        }
-        
-        .modal.show { display: flex; }
-        
-        .modal-content {
-            background: white;
-            padding: 24px;
-            border-radius: 12px;
-            max-width: 600px;
-            width: 90%;
-            max-height: 80vh;
-            overflow-y: auto;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
-        }
-        
-        .modal-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 16px;
-            border-bottom: 1px solid var(--border);
-            padding-bottom: 12px;
-        }
-        
-        .modal-header h2 { font-size: 18px; color: var(--primary); }
-        .modal-close { background: none; border: none; font-size: 24px; cursor: pointer; color: var(--text); }
-        .modal-body { color: var(--text); line-height: 1.6; white-space: pre-wrap; word-wrap: break-word; }
-        
-        footer { margin-top: 20px; text-align: center; font-size: 12px; color: var(--text); padding: 20px; }
-        
-        @media (max-width: 768px) {
-            header { flex-direction: column; align-items: flex-start; }
-            .filters { flex-direction: column; align-items: flex-start; }
-            input[type="text"] { min-width: 100%; }
-        }
-    </style>
+    <title>Talentwale Issue Tracker</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
 </head>
-<body>
+<body class="p-6 relative">
 
-<div class="container">
-    <header>
+    <header class="mb-8 flex justify-between items-center bg-white p-4 rounded-lg shadow-sm">
         <div>
-            <h1>Module</h1>
-            <p class="subtitle">Talentwale Issue Tracker - Live Data</p>
-            <p class="last-updated">Last updated: <span id="lastUpdated">--:--</span></p>
+            <h1 class="text-2xl font-bold text-gray-800 border-l-4 border-blue-600 pl-3">Talentwale Website Bugs Dashboard</h1>
+            <p class="text-gray-500 text-sm pl-4 mt-1">Real-time Issue Tracking</p>
         </div>
-        <div class="refresh-controls">
-            <span class="refresh-badge" id="status">Ready</span>
-            <button class="btn-primary" onclick="refresh()">🔄 Refresh</button>
-            <button class="btn-outline" onclick="clearFilters()">🧹 Clear</button>
-            <button class="btn-success" onclick="exportCSV()">📥 Export</button>
+        <div class="flex items-center gap-4">
+            <button onclick="openAddModal()" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded shadow flex items-center gap-2 transition-colors">
+                <i class="fas fa-plus"></i> Add New Issue
+            </button>
+            <div class="text-right">
+                <span class="bg-blue-100 text-blue-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded">Live Data</span>
+                <div id="lastUpdated" class="text-gray-600 text-sm mt-1">Loading...</div>
+            </div>
         </div>
     </header>
 
-    <div class="banner error-banner" id="errorBanner"></div>
-    <div class="banner success-banner" id="successBanner"></div>
-
-    <div class="stats-grid">
-        <div class="stat-card">
-            <div class="stat-label">Total Issues</div>
-            <div class="stat-number" id="totalStat">0</div>
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+        <div id="tabAll" onclick="setTab('All')" class="card cursor-pointer bg-white p-6 rounded-lg shadow-sm border-l-4 border-blue-500 flex justify-between items-center ring-2 ring-offset-2 ring-blue-500">
+            <div><p class="text-gray-500 text-sm font-medium">Total Issues</p><h2 class="text-3xl font-bold text-gray-800" id="countTotal">-</h2></div>
+            <div class="bg-blue-100 p-3 rounded-full text-blue-600"><i class="fas fa-list"></i></div>
         </div>
-        <div class="stat-card">
-            <div class="stat-label">Done</div>
-            <div class="stat-number" id="doneStat">0</div>
+        <div id="tabPending" onclick="setTab('Pending')" class="card cursor-pointer bg-white p-6 rounded-lg shadow-sm border-l-4 border-yellow-500 flex justify-between items-center opacity-70 hover:opacity-100">
+            <div><p class="text-gray-500 text-sm font-medium">Pending</p><h2 class="text-3xl font-bold text-gray-800" id="countPending">-</h2></div>
+            <div class="bg-yellow-100 p-3 rounded-full text-yellow-600"><i class="fas fa-clock"></i></div>
         </div>
-        <div class="stat-card">
-            <div class="stat-label">Pending</div>
-            <div class="stat-number" id="pendingStat">0</div>
+        <div id="tabDone" onclick="setTab('Done')" class="card cursor-pointer bg-white p-6 rounded-lg shadow-sm border-l-4 border-green-500 flex justify-between items-center opacity-70 hover:opacity-100">
+            <div><p class="text-gray-500 text-sm font-medium">Done</p><h2 class="text-3xl font-bold text-gray-800" id="countDone">-</h2></div>
+            <div class="bg-green-100 p-3 rounded-full text-green-600"><i class="fas fa-check-circle"></i></div>
         </div>
-        <div class="stat-card">
-            <div class="stat-label">Other</div>
-            <div class="stat-number" id="otherStat">0</div>
+        <div id="tabOther" onclick="setTab('Other')" class="card cursor-pointer bg-white p-6 rounded-lg shadow-sm border-l-4 border-gray-500 flex justify-between items-center opacity-70 hover:opacity-100">
+            <div><p class="text-gray-500 text-sm font-medium">Other</p><h2 class="text-3xl font-bold text-gray-800" id="countOther">-</h2></div>
+            <div class="bg-gray-100 p-3 rounded-full text-gray-600"><i class="fas fa-question-circle"></i></div>
         </div>
     </div>
 
-    <div class="filters">
-        <div class="filter-group">
-            <label>🔍 Search:</label>
-            <input type="text" id="search" placeholder="Search..." onkeyup="applyFilters()">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+        <div class="bg-white p-6 rounded-lg shadow-sm">
+            <h3 class="text-lg font-semibold text-gray-700 mb-4">Issues by Priority</h3>
+            <div class="relative h-64"><canvas id="priorityChart"></canvas></div>
         </div>
-        <div class="filter-group">
-            <label>Status:</label>
-            <select id="statusFilter" onchange="applyFilters()">
-                <option value="">All</option>
-                <option value="done">Done</option>
-                <option value="pending">Pending</option>
-                <option value="other">Other</option>
-            </select>
-        </div>
-        <div class="filter-group">
-            <label>Priority:</label>
-            <select id="priorityFilter" onchange="applyFilters()">
-                <option value="">All</option>
-                <option value="High">High</option>
-                <option value="Medium">Medium</option>
-                <option value="Low">Low</option>
-            </select>
-        </div>
-        <div class="filter-group">
-            <label>From:</label>
-            <input type="date" id="dateFrom" onchange="applyFilters()">
-        </div>
-        <div class="filter-group">
-            <label>To:</label>
-            <input type="date" id="dateTo" onchange="applyFilters()">
-        </div>
-        <div class="filter-group">
-            <label>Per Page:</label>
-            <select id="pageSize" onchange="changePageSize()">
-                <option value="10">10</option>
-                <option value="20">20</option>
-                <option value="50">50</option>
-            </select>
+        <div class="bg-white p-6 rounded-lg shadow-sm">
+            <h3 class="text-lg font-semibold text-gray-700 mb-4">Issues by Assignee</h3>
+            <div class="relative h-64"><canvas id="assignChart"></canvas></div>
         </div>
     </div>
 
-    <div class="table-wrapper">
-        <table>
-            <thead>
-                <tr>
-                    <th onclick="sort('issueNumber')">Issue Number <span class="sort" id="s-issueNumber"></span></th>
-                    <th onclick="sort('title')">Title <span class="sort" id="s-title"></span></th>
-                    <th onclick="sort('description')">Description</th>
-                    <th onclick="sort('status')">Status <span class="sort" id="s-status"></span></th>
-                    <th onclick="sort('devComment')">Dev Comment <span class="sort" id="s-devComment"></span></th>
-                    <th onclick="sort('qaComment')">QA Comment <span class="sort" id="s-qaComment"></span></th>
-                    <th onclick="sort('overallStatus')">Overall Status <span class="sort" id="s-overallStatus"></span></th>
-                    <th onclick="sort('priority')">Priority <span class="sort" id="s-priority"></span></th>
-                    <th>Category</th>
-                    <th onclick="sort('dateCreated')">Date <span class="sort" id="s-dateCreated"></span></th>
-                    <th>Assigned To</th>
-                </tr>
-            </thead>
-            <tbody id="tbody">
-                <tr><td colspan="11" class="loading"><div class="spinner"></div>Loading data...</td></tr>
-            </tbody>
-        </table>
-        <div class="pagination">
-            <div id="pageInfo">Showing 0–0 of 0</div>
-            <div class="pagination-controls">
-                <button class="pagination-btn" onclick="prevPage()" id="prevBtn" disabled>Previous</button>
-                <span id="pageNum">Page 0 of 0</span>
-                <button class="pagination-btn" onclick="nextPage()" id="nextBtn" disabled>Next</button>
+    <div class="bg-white p-6 rounded-lg shadow-sm mb-6">
+        <h3 class="text-lg font-semibold text-gray-700 mb-4"><i class="fas fa-filter mr-2"></i>Filters</h3>
+        <div class="grid grid-cols-1 md:grid-cols-6 gap-4">
+            <div class="md:col-span-1">
+                <label class="block text-sm text-gray-600 mb-1">Search</label>
+                <input type="text" id="filterSearch" placeholder="Search ID, Desc..." class="w-full p-2 border rounded focus:outline-none focus:border-blue-500 text-sm">
+            </div>
+            <div>
+                <label class="block text-sm text-gray-600 mb-1">Module</label>
+                <select id="filterModule" class="w-full p-2 border rounded focus:outline-none focus:border-blue-500 bg-white text-sm">
+                    <option value="All">All Modules</option>
+                    <option value="Admin">Admin</option>
+                    <option value="Employer">Employer</option>
+                    <option value="Candidate">Candidate</option>
+                    <option value="Other">Other</option>
+                </select>
+            </div>
+            <div>
+                <label class="block text-sm text-gray-600 mb-1">Reported By</label>
+                <select id="filterReported" class="w-full p-2 border rounded focus:outline-none focus:border-blue-500 bg-white text-sm">
+                    <option value="All">All Reporters</option>
+                </select>
+            </div>
+            <div>
+                <label class="block text-sm text-gray-600 mb-1">Priority</label>
+                <select id="filterPriority" class="w-full p-2 border rounded focus:outline-none focus:border-blue-500 bg-white text-sm">
+                    <option value="All">All Priorities</option>
+                    <option value="High">High</option>
+                    <option value="Medium">Medium</option>
+                    <option value="Low">Low</option>
+                </select>
+            </div>
+            <div>
+                <label class="block text-sm text-gray-600 mb-1">From Date</label>
+                <input type="date" id="filterDateFrom" class="w-full p-2 border rounded focus:outline-none focus:border-blue-500 text-sm">
+            </div>
+            <div>
+                <label class="block text-sm text-gray-600 mb-1">To Date</label>
+                <input type="date" id="filterDateTo" class="w-full p-2 border rounded focus:outline-none focus:border-blue-500 text-sm">
             </div>
         </div>
     </div>
 
-    <div class="modal" id="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2>Description - <span id="modalIssue"></span></h2>
-                <button class="modal-close" onclick="closeModal()">✕</button>
+    <div class="bg-white rounded-lg shadow-sm overflow-hidden mb-10">
+        <div class="p-4 border-b flex justify-between">
+            <h3 class="text-lg font-semibold text-gray-700">Detailed Issue List</h3>
+            <div class="loader" id="loader"></div>
+        </div>
+        <div class="overflow-x-auto min-h-[300px]">
+            <table class="w-full text-sm text-left text-gray-500">
+                <thead class="text-xs text-gray-700 uppercase bg-gray-50">
+                    <tr>
+                        <th class="px-4 py-3">ID</th>
+                        <th class="px-4 py-3">Module</th>
+                        <th class="px-4 py-3">Date</th>
+                        <th class="px-4 py-3 w-1/4">Description</th>
+                        <th class="px-4 py-3">Reference</th>
+                        <th class="px-4 py-3">Priority</th>
+                        <th class="px-4 py-3">Assign To</th>
+                        <th class="px-4 py-3">Status</th>
+                    </tr>
+                </thead>
+                <tbody id="tableBody"></tbody>
+            </table>
+        </div>
+        <div class="p-4 border-t flex flex-col md:flex-row justify-between items-center bg-gray-50 gap-4" id="paginationControls">
+            <div class="text-sm text-gray-600">
+                Showing <span id="startRow" class="font-medium">0</span> to <span id="endRow" class="font-medium">0</span> of <span id="totalRows" class="font-medium">0</span> entries
             </div>
-            <div class="modal-body" id="modalBody"></div>
+            <div class="flex items-center gap-4">
+                <div class="flex items-center gap-2">
+                    <span class="text-sm text-gray-600">Rows:</span>
+                    <select id="rowsPerPage" class="border rounded p-1 text-sm bg-white focus:outline-none focus:border-blue-500 cursor-pointer">
+                        <option value="10">10</option>
+                        <option value="30">30</option>
+                        <option value="50">50</option>
+                        <option value="100">100</option>
+                        <option value="500">500</option>
+                    </select>
+                </div>
+                <div class="flex gap-1">
+                    <button id="btnPrev" class="px-3 py-1 border rounded bg-white text-gray-600 hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed text-sm">Prev</button>
+                    <span id="pageIndicator" class="px-3 py-1 text-sm font-medium text-gray-700">Page 1</span>
+                    <button id="btnNext" class="px-3 py-1 border rounded bg-white text-gray-600 hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed text-sm">Next</button>
+                </div>
+            </div>
+        </div>
+        <div class="p-4 text-center text-gray-400 text-sm" id="noDataMessage" style="display: none;">No records found.</div>
+    </div>
+
+    <div id="addIssueModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden flex items-center justify-center backdrop-blur-sm">
+        <div class="bg-white rounded-lg shadow-xl w-full max-w-lg p-6 m-4 transform transition-all">
+            <div class="flex justify-between items-center mb-6 border-b pb-2">
+                <h3 class="text-xl font-bold text-gray-800"><i class="fas fa-plus-circle text-blue-600 mr-2"></i>Add New Issue</h3>
+                <button onclick="closeAddModal()" class="text-gray-400 hover:text-red-500 transition-colors"><i class="fas fa-times text-xl"></i></button>
+            </div>
+            
+            <form id="addIssueForm" onsubmit="submitIssue(event)" class="space-y-4">
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Issue ID</label>
+                        <input type="text" id="inputId" class="w-full p-2 border rounded bg-gray-100 text-gray-500 cursor-not-allowed" readonly>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Date</label>
+                        <input type="date" id="inputDate" class="w-full p-2 border rounded bg-gray-50 text-gray-700">
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Module</label>
+                        <select id="inputModule" class="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500" required>
+                            <option value="">Select Module</option>
+                            <option value="Admin">Admin</option>
+                            <option value="Employer">Employer</option>
+                            <option value="Candidate">Candidate</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Priority</label>
+                        <select id="inputPriority" class="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500" required>
+                            <option value="Low">Low</option>
+                            <option value="Medium">Medium</option>
+                            <option value="High">High</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Reported By</label>
+                    <select id="inputReported" class="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500" required>
+                        <option value="Gyanu">Gyanu</option>
+                        <option value="Saahil">Saahil</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Description</label>
+                    <textarea id="inputDesc" rows="3" class="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500" placeholder="Describe the bug..." required></textarea>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Reference</label>
+                    <div class="flex gap-2">
+                        <input type="text" id="inputRefLink" class="flex-1 p-2 border rounded focus:ring-2 focus:ring-blue-500" placeholder="Paste Link (Drive, Image, etc.)">
+                        <select id="inputRefType" class="w-32 p-2 border rounded bg-gray-50 text-sm">
+                            <option value="Image">Snapshot</option>
+                            <option value="Video">Video</option>
+                            <option value="Link">Link</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="pt-4 flex gap-3">
+                    <button type="button" onclick="closeAddModal()" class="flex-1 py-2 border rounded text-gray-600 hover:bg-gray-50">Cancel</button>
+                    <button type="submit" id="btnSubmit" class="flex-1 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 shadow-md flex justify-center items-center gap-2">
+                        <span id="submitText">Submit Issue</span>
+                        <i id="submitSpinner" class="fas fa-spinner fa-spin hidden"></i>
+                    </button>
+                </div>
+            </form>
         </div>
     </div>
 
-    <footer>Created by Gyanu Kumar</footer>
-</div>
-
-<script>
-// WORKING CONFIG - TESTED ✅
-const CONFIG = {
-    SHEET_ID: '1rZJ7Tu-huQi_EVVSjjy7uhUumaxbM08WwsKjtjYJCn0',
-    SHEET_NAME: 'Website Issues',
-    API_KEY: 'AIzaSyDrRZPb_oNAJLpNm167axWK5i85cuYG_HQ'
-};
-
-let allData = [];
-let filtered = [];
-let currentPage = 1;
-let pageSize = 10;
-let sortKey = null;
-let sortDir = 'asc';
-
-const columnMap = {
-    issueNumber: ['id', 'issue id', 'issue number'],
-    title: ['title', 'subject', 'name'],
-    description: ['description', 'detail', 'details', 'summary'],
-    status: ['status', 'state'],
-    devComment: ['dev comment', 'developer comment', 'dev notes'],
-    qaComment: ['qa comment', 'qa notes', 'testing comments'],
-    overallStatus: ['overall status', 'final status', 'resolution'],
-    priority: ['priority', 'severity'],
-    category: ['category', 'type'],
-    dateCreated: ['date created', 'date', 'created on'],
-    assignedTo: ['assigned to', 'assignee']
-};
-
-document.addEventListener('DOMContentLoaded', () => {
-    loadData();
-    setInterval(loadData, 30000);
-});
-
-async function loadData() {
-    setStatus('Loading...');
-    hideMessages();
-    
-    try {
-        const url = `https://sheets.googleapis.com/v4/spreadsheets/${CONFIG.SHEET_ID}/values/${encodeURIComponent(CONFIG.SHEET_NAME)}?key=${CONFIG.API_KEY}`;
-        
-        const response = await fetch(url);
-        
-        if (!response.ok) {
-            throw new Error(`API Error ${response.status}: ${response.statusText}`);
-        }
-        
-        const data = await response.json();
-        const values = data.values || [];
-        
-        if (!values.length) {
-            throw new Error('No data in sheet');
-        }
-        
-        const headers = values[0].map(h => h.trim().toLowerCase());
-        allData = values.slice(1)
-            .map(row => mapRow(headers, row))
-            .filter(r => r.issueNumber);
-        
-        applyFilters(false);
-        updateStats();
-        updateTime();
-        setStatus('Live ✓');
-        showSuccess(`✅ Loaded ${allData.length} issues`);
-        
-    } catch (err) {
-        showError('Error loading data. Using demo data.');
-        setStatus('Error');
-        loadDemo();
-    }
-}
-
-function mapRow(headers, row) {
-    const get = (keys) => {
-        const idx = headers.findIndex(h => keys.some(k => h.includes(k)));
-        return idx >= 0 ? (row[idx] || '') : '';
-    };
-    
-    return {
-        issueNumber: get(columnMap.issueNumber),
-        title: get(columnMap.title),
-        description: get(columnMap.description),
-        status: get(columnMap.status),
-        devComment: get(columnMap.devComment),
-        qaComment: get(columnMap.qaComment),
-        overallStatus: get(columnMap.overallStatus),
-        priority: get(columnMap.priority),
-        category: get(columnMap.category),
-        dateCreated: get(columnMap.dateCreated),
-        assignedTo: get(columnMap.assignedTo)
-    };
-}
-
-function loadDemo() {
-    allData = [
-        { issueNumber: 'TW-001', title: 'Login Issue', description: 'Users unable to login', status: 'Pending', devComment: 'In Progress', qaComment: 'Testing', overallStatus: 'In Progress', priority: 'High', category: 'Bug', dateCreated: '2024-12-01', assignedTo: 'Dev Team' },
-        { issueNumber: 'TW-002', title: 'Dashboard UI', description: 'Redesign dashboard', status: 'Done', devComment: 'Completed', qaComment: 'Approved', overallStatus: 'Completed', priority: 'Medium', category: 'Feature', dateCreated: '2024-11-28', assignedTo: 'Frontend Team' }
-    ];
-    applyFilters(false);
-    updateStats();
-}
-
-function normalizeStatus(st) {
-    st = (st || '').trim().toLowerCase();
-    if (['done', 'resolved', 'closed', 'completed'].includes(st)) return 'done';
-    if (['pending', 'open', 'in progress', 'in-progress', 'todo'].includes(st)) return 'pending';
-    return 'other';
-}
-
-function updateStats() {
-    const total = allData.length;
-    const done = allData.filter(r => normalizeStatus(r.status) === 'done').length;
-    const pending = allData.filter(r => normalizeStatus(r.status) === 'pending').length;
-    const other = total - done - pending;
-    
-    document.getElementById('totalStat').textContent = total;
-    document.getElementById('doneStat').textContent = done;
-    document.getElementById('pendingStat').textContent = pending;
-    document.getElementById('otherStat').textContent = other;
-}
-
-function applyFilters(render = true) {
-    const search = document.getElementById('search').value.toLowerCase();
-    const statusFilter = document.getElementById('statusFilter').value;
-    const priorityFilter = document.getElementById('priorityFilter').value;
-    const dateFrom = document.getElementById('dateFrom').value;
-    const dateTo = document.getElementById('dateTo').value;
-    
-    filtered = allData.filter(r => {
-        const searchText = `${r.issueNumber} ${r.title} ${r.description} ${r.devComment} ${r.qaComment}`.toLowerCase();
-        if (search && !searchText.includes(search)) return false;
-        
-        if (statusFilter && normalizeStatus(r.status) !== statusFilter) return false;
-        if (priorityFilter && r.priority.toLowerCase() !== priorityFilter.toLowerCase()) return false;
-        
-        if (dateFrom || dateTo) {
-            const date = new Date(r.dateCreated);
-            if (dateFrom && date < new Date(dateFrom)) return false;
-            if (dateTo && date > new Date(dateTo)) return false;
-        }
-        
-        return true;
-    });
-    
-    currentPage = 1;
-    if (render) renderTable();
-}
-
-function sort(key) {
-    if (sortKey === key) {
-        sortDir = sortDir === 'asc' ? 'desc' : 'asc';
-    } else {
-        sortKey = key;
-        sortDir = 'asc';
-    }
-    
-    ['issueNumber','title','status','devComment','qaComment','overallStatus','priority','dateCreated'].forEach(k => {
-        const el = document.getElementById('s-' + k);
-        if (el) el.textContent = '';
-    });
-    
-    const indicator = document.getElementById('s-' + key);
-    if (indicator) indicator.textContent = sortDir === 'asc' ? '▲' : '▼';
-    
-    filtered.sort((a, b) => {
-        let valA = a[key] || '';
-        let valB = b[key] || '';
-        
-        if (key === 'dateCreated') {
-            const da = new Date(valA).getTime() || 0;
-            const db = new Date(valB).getTime() || 0;
-            return sortDir === 'asc' ? da - db : db - da;
-        }
-        
-        valA = ('' + valA).toLowerCase();
-        valB = ('' + valB).toLowerCase();
-        return sortDir === 'asc' ? valA.localeCompare(valB) : valB.localeCompare(valA);
-    });
-    
-    currentPage = 1;
-    renderTable();
-}
-
-function renderTable() {
-    const tbody = document.getElementById('tbody');
-    
-    if (!filtered.length) {
-        tbody.innerHTML = '<tr><td colspan="11" class="no-data">No data found</td></tr>';
-        updatePagination();
-        return;
-    }
-    
-    const total = filtered.length;
-    const pages = Math.ceil(total / pageSize);
-    currentPage = Math.min(Math.max(currentPage, 1), pages);
-    
-    const start = (currentPage - 1) * pageSize;
-    const data = filtered.slice(start, start + pageSize);
-    
-    tbody.innerHTML = data.map(r => `
-        <tr>
-            <td><strong>${esc(r.issueNumber)}</strong></td>
-            <td>${esc(r.title)}</td>
-            <td><button class="view-btn" onclick="openModal('${esc(r.issueNumber)}','${esc(r.description)}')">View</button></td>
-            <td><span class="status-badge status-${normalizeStatus(r.status)}">${esc(r.status)}</span></td>
-            <td>${esc(r.devComment || '-')}</td>
-            <td>${esc(r.qaComment || '-')}</td>
-            <td><span class="status-badge status-${normalizeStatus(r.overallStatus)}">${esc(r.overallStatus || '-')}</span></td>
-            <td><span class="priority-${r.priority.toLowerCase()}">${esc(r.priority || '-')}</span></td>
-            <td>${esc(r.category)}</td>
-            <td>${esc(r.dateCreated)}</td>
-            <td>${esc(r.assignedTo)}</td>
-        </tr>
-    `).join('');
-    
-    updatePagination();
-}
-
-function updatePagination() {
-    const total = filtered.length;
-    const pages = Math.ceil(total / pageSize) || 1;
-    const start = (currentPage - 1) * pageSize + 1;
-    const end = Math.min(currentPage * pageSize, total);
-    
-    document.getElementById('pageInfo').textContent = `Showing ${start}–${end} of ${total}`;
-    document.getElementById('pageNum').textContent = `Page ${currentPage} of ${pages}`;
-    document.getElementById('prevBtn').disabled = currentPage <= 1;
-    document.getElementById('nextBtn').disabled = currentPage >= pages;
-}
-
-function prevPage() { if (currentPage > 1) { currentPage--; renderTable(); } }
-function nextPage() { const pages = Math.ceil(filtered.length / pageSize); if (currentPage < pages) { currentPage++; renderTable(); } }
-function changePageSize() { pageSize = parseInt(document.getElementById('pageSize').value); currentPage = 1; renderTable(); }
-
-function openModal(issue, desc) {
-    document.getElementById('modalIssue').textContent = issue;
-    document.getElementById('modalBody').textContent = desc || 'No description';
-    document.getElementById('modal').classList.add('show');
-}
-
-function closeModal() {
-    document.getElementById('modal').classList.remove('show');
-}
-
-function refresh() { loadData(); }
-
-function clearFilters() {
-    document.getElementById('search').value = '';
-    document.getElementById('statusFilter').value = '';
-    document.getElementById('priorityFilter').value = '';
-    document.getElementById('dateFrom').value = '';
-    document.getElementById('dateTo').value = '';
-    applyFilters();
-}
-
-function exportCSV() {
-    if (!filtered.length) { alert('No data to export'); return; }
-    
-    const headers = ['Issue Number','Title','Description','Status','Dev Comment','QA Comment','Overall Status','Priority','Category','Date','Assigned To'];
-    const rows = filtered.map(r => [r.issueNumber,r.title,r.description,r.status,r.devComment,r.qaComment,r.overallStatus,r.priority,r.category,r.dateCreated,r.assignedTo]);
-    
-    let csv = headers.join(',') + '\n';
-    rows.forEach(r => {
-        csv += r.map(v => `"${(v||'').replace(/"/g,'""')}"`).join(',') + '\n';
-    });
-    
-    const blob = new Blob([csv], { type: 'text/csv' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'talentwale-module-issues.csv';
-    a.click();
-    URL.revokeObjectURL(url);
-}
-
-function updateTime() {
-    const now = new Date();
-    document.getElementById('lastUpdated').textContent = now.toLocaleString('en-US', {month:'short',day:'numeric',year:'numeric',hour:'2-digit',minute:'2-digit'});
-}
-
-function setStatus(text) { document.getElementById('status').textContent = text; }
-
-function showError(msg) {
-    const banner = document.getElementById('errorBanner');
-    banner.textContent = '❌ ' + msg;
-    banner.classList.add('show');
-}
-
-function showSuccess(msg) {
-    const banner = document.getElementById('successBanner');
-    banner.textContent = msg;
-    banner.classList.add('show');
-}
-
-function hideMessages() {
-    document.getElementById('errorBanner').classList.remove('show');
-    document.getElementById('successBanner').classList.remove('show');
-}
-
-function esc(text) {
-    const map = {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'};
-    return (text || '').replace(/[&<>"']/g, m => map[m]);
-}
-
-window.closeModal = closeModal;
-</script>
-
+    <script src="script.js"></script>
 </body>
 </html>
